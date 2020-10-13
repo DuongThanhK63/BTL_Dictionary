@@ -38,8 +38,4 @@ public class Word {
     public String toString() {
         return word + "\n" + meaning;
     }
-
-    public boolean equals(String x) {
-        return (this.word == x);
-    }
 }

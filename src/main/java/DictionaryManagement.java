@@ -49,7 +49,7 @@ public class DictionaryManagement {
 
     public void insertFromFile() throws FileNotFoundException {
 
-        BufferedReader reader = new BufferedReader(new FileReader("D:\\EnViOut.txt"));
+        BufferedReader reader = new BufferedReader(new FileReader("dtb.txt"));
         try {
             String currentLine = reader.readLine();
             String word = null;
@@ -62,7 +62,7 @@ public class DictionaryManagement {
 
                     }
                     int index1 = currentLine.indexOf('/');
-                    word = currentLine.substring(1, index1 - 1);
+                    word = currentLine.substring(1, index1 - 2);
                     meaning = currentLine.substring(index1, currentLine.length());
                     currentLine = reader.readLine();
                 } else {
@@ -87,7 +87,7 @@ public class DictionaryManagement {
     }
 
     public void saveFile() throws IOException {
-        String url = "D:\\b.txt";
+        String url = "C:\\Users\\Administrator\\Downloads\\DictionaryApp-20201013T010417Z-001-20201013T061639Z-001\\DictionaryApp-20201013T010417Z-001\\DictionaryApp\\DictionaryApp\\src\\main\\resources\\a.txt";
         File outFile = new File(url);
         BufferedWriter writer = new BufferedWriter(new FileWriter(outFile));
         try {
@@ -108,14 +108,18 @@ public class DictionaryManagement {
         }
     }
 
-    void dictionaryLookup(String x) {
-        int key = hash(x.toLowerCase());
+    public String dictionaryLookup(String x) {
+        String b = x.toLowerCase();
+        int key = hash(b);
+        String a = "";
         for (int i = 0; i < dict.wordList[key].size(); i++) {
-            if (((Word) dict.wordList[key].get(i)).word.equals(x.toLowerCase())) {
-                System.out.println(dict.wordList[key].get(i).toString());
-                speech(x);
+            if (((Word) dict.wordList[key].get(i)).word.equals(b)) {
+//                System.out.println(dict.wordList[key].get(i).toString());
+//                speech(x);
+                a = ((Word) dict.wordList[key].get(i)).meaning;
             }
         }
+        return a;
     }
 
     void dictionarySearch(String x) {
@@ -147,7 +151,7 @@ public class DictionaryManagement {
         }
     }
 
-    public static void speech(String text) {
+    public void speech(String text) {
         VoiceManager voiceManager = VoiceManager.getInstance();
         com.sun.speech.freetts.Voice syntheticVoice = voiceManager.getVoice("kevin16");
         syntheticVoice.allocate();
@@ -197,3 +201,5 @@ public class DictionaryManagement {
         }
     }
 }
+
+
