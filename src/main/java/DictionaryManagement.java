@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+import com.sun.speech.freetts.Voice;
 import com.sun.speech.freetts.VoiceManager;
 import java.io.*;
 import java.util.*;
@@ -11,29 +12,35 @@ import java.util.*;
 public class DictionaryManagement {
 
     Dictionary dict = new Dictionary();
+    Voice voice;
 
-    void insertFromCommandLine(int num) {
-        Scanner sc = new Scanner(System.in);
-        String word1, meaning;
-        for (int i = 0; i < num; i++) {
-            word1 = sc.nextLine();
-            word1 = word1.toLowerCase();
-            meaning = sc.nextLine();
-            meaning = meaning.toLowerCase();
-            Word word = new Word(word1, meaning);
-            int key = hash(word1);
-            int a = 0;
-            for (int j = 0; j < dict.wordList[key].size(); j++) {
-                if (((Word) dict.wordList[key].get(j)).word.equals(word1)) {
-                    ((Word) dict.wordList[key].get(j)).meaning = String.format("%s, %s, %s", ((Word) dict.wordList[key].get(j)).meaning, "\n", meaning);
-                    a++;
-                }
+    void addDict(String word1, String meaning) {
+        word1 = word1.toLowerCase();
+        meaning = meaning.toLowerCase();
+        Word word = new Word(word1, meaning);
+        int key = hash(word1);
+        int a = 0;
+        for (int j = 0; j < dict.wordList[key].size(); j++) {
+            if (((Word) dict.wordList[key].get(j)).word.equals(word1)) {
+                ((Word) dict.wordList[key].get(j)).meaning = String.format("%s, %s, %s", ((Word) dict.wordList[key].get(j)).meaning, "\n", meaning);
+                a++;
             }
-            if (a == 0) {
-                dict.wordList[key].add(word);
+        }
+        if (a == 0) {
+            dict.wordList[key].add(word);
+        }
+    }
+
+    void editDict(String wordbf, String meaning) {
+        meaning = meaning.toLowerCase();
+        int key = hash(wordbf);
+        for (int j = 0; j < dict.wordList[key].size(); j++) {
+            if (((Word) dict.wordList[key].get(j)).word.equals(wordbf)) {
+                ((Word) dict.wordList[key].get(j)).meaning = meaning;
             }
         }
     }
+
 
     int hash(String x) {
         int index = 0;
@@ -87,7 +94,7 @@ public class DictionaryManagement {
     }
 
     public void saveFile() throws IOException {
-        String url = "C:\\Users\\Administrator\\Downloads\\DictionaryApp-20201013T010417Z-001-20201013T061639Z-001\\DictionaryApp-20201013T010417Z-001\\DictionaryApp\\DictionaryApp\\src\\main\\resources\\a.txt";
+        String url = "C:\\Users\\Admin\\Desktop\\DictionaryApp\\DictionaryApp\\src\\main\\resources\\a.txt";
         File outFile = new File(url);
         BufferedWriter writer = new BufferedWriter(new FileWriter(outFile));
         try {
@@ -135,8 +142,7 @@ public class DictionaryManagement {
         int key = hash(x.toLowerCase());
         for (int i = 0; i < dict.wordList[key].size(); i++) {
             if (((Word) dict.wordList[key].get(i)).word.equals(x.toLowerCase())) {
-                ((Word) dict.wordList[key].get(i)).word = null;
-                ((Word) dict.wordList[key].get(i)).meaning = null;
+                dict.wordList[key].remove(i);
             }
         }
     }
@@ -151,13 +157,29 @@ public class DictionaryManagement {
         }
     }
 
-    public void speech(String text) {
-        VoiceManager voiceManager = VoiceManager.getInstance();
-        com.sun.speech.freetts.Voice syntheticVoice = voiceManager.getVoice("kevin16");
-        syntheticVoice.allocate();
-        syntheticVoice.speak(text);
-        syntheticVoice.deallocate();
+    public void speech(String words) {
+        System.setProperty("freetts.voices", "com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory");
+        voice = VoiceManager.getInstance().getVoice("kevin16");
+        if (voice != null) {
+            voice.allocate();// Allocating Voice
+            try {
+                voice.setRate(190);// Setting the rate of the voice
+                voice.setPitch(150);// Setting the Pitch of the voice
+                voice.setVolume(3);// Setting the volume of the voice
+                SpeakText(words);// Calling speak() method
+
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+
+        } else {
+            throw new IllegalStateException("Cannot find voice: kevin16");
+        }
     }
+    public void SpeakText(String words) {
+        voice.speak(words);
+    }
+
 
     boolean SoSanh(String s, String s1) {
         int saiSo = (int) Math.round(s.length() * 0.3);

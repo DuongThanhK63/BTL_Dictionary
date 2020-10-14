@@ -5,15 +5,18 @@ import javafx.fxml.Initializable;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.net.URL;
 import java.util.Scanner;
 
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
 
 public class DictController implements Initializable{
@@ -58,9 +61,6 @@ public class DictController implements Initializable{
 
     }
 
-    public void whenClickTextField(ActionEvent actionEvent) {
-    }
-
     public void whenClickSearch(ActionEvent actionEvent) {
         String word1 = insertDict.getText();
         String a = dict.dictionaryLookup(word1);
@@ -69,33 +69,86 @@ public class DictController implements Initializable{
     }
 
     public void whenClickAdd(ActionEvent actionEvent) {
-        DIctFX ab = new DIctFX();
-        Stage stage = new Stage();
-        GridPane grid = new GridPane();
-        TextField textField = new TextField();
-        TextArea textArea = new TextArea();
-        textArea.setPromptText("nhap");
-        textField.setPromptText("nhap");
-        Button button = new Button();
-        button.setText("add");
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.add(textField, 0, 0);
-        grid.add(button, 10 ,0);
-        grid.add(textArea, 0, 1);
-        stage.setScene(new Scene(grid, 400, 400));
-        stage.show();
+        Dialog<Pair<String, String>> dialog = new Dialog<>();
+        dialog.setTitle("ADD");
+        ButtonType addButton = new ButtonType("Add", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(addButton, ButtonType.CANCEL);
+
+        GridPane grip = new GridPane();
+        grip.setHgap(10);
+        grip.setVgap(10);
+        grip.setPadding(new Insets(20, 200, 10, 10));
+        TextField word1 = new TextField();
+        word1.setPromptText("Enter word");
+        TextField meaning = new TextField();
+        meaning.setPromptText("Enter meaning");
+
+        grip.add(new Label("Word:"), 0, 0);
+        grip.add(word1, 1, 0);
+
+        grip.add(new Label("Meaning"), 0, 1);
+        grip.add(meaning, 1, 1);
+
+        dialog.getDialogPane().setContent(grip);
+
+        dialog.setResultConverter(dialogButton -> {
+            if(dialogButton == addButton){
+                return  new Pair<>(word1.getText(), meaning.getText());
+            }
+            return null;
+        } );
+
+        Optional<Pair<String, String>> result = dialog.showAndWait();
+        result.ifPresent(x -> {
+            dict.addDict(x.getKey(), x.getValue());
+
+        });
 
     }
 
     public void whenClickEdit(ActionEvent actionEvent) {
+        String wordbf = insertDict.getText();
+        if(dict.dictionaryLookup(wordbf) == null) {
+            displayMeaning.setText("Not found");
+        }
+        else{
+                Dialog<String> dialog = new Dialog<>();
+                dialog.setTitle("EDIT");
+                ButtonType addButton = new ButtonType("Edit", ButtonBar.ButtonData.OK_DONE);
+                dialog.getDialogPane().getButtonTypes().addAll(addButton, ButtonType.CANCEL);
+
+                GridPane grip = new GridPane();
+                grip.setHgap(10);
+                grip.setVgap(10);
+                grip.setPadding(new Insets(20, 200, 10, 10));
+
+                TextField meaning = new TextField();
+                meaning.setPromptText("Enter new meaning");
+
+                grip.add(new Label("Meaning:"), 0, 1);
+                grip.add(meaning, 1, 1);
+
+                dialog.getDialogPane().setContent(grip);
+
+                dialog.setResultConverter(dialogButton -> {
+                    if (dialogButton == addButton) {
+                        return meaning.getText();
+                    }
+                    return null;
+                });
+
+                Optional<String> result = dialog.showAndWait();
+                result.ifPresent(x -> {
+                    dict.editDict(wordbf, meaning.getText());
+
+                });
+        }
     }
 
     public void whenClickDelete(ActionEvent actionEvent) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Vp moi");
-        alert.show();
-        TextField textField = new TextField();
+        String word1 = insertDict.getText();
+        dict.removeWord(word1);
+        displayMeaning.setText("DONE");
 
     }
 

@@ -17,7 +17,7 @@
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="86.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@Untitled.png" />
+                  <Image url="@../resources/Untitled.png" />
                </image>
             </ImageView>
             <TextField fx:id="insertDict" layoutX="37.0" layoutY="260.0" prefHeight="30.0" prefWidth="255.0" promptText="Nhap tai day" style="-fx-background-color: #0598ff;">
