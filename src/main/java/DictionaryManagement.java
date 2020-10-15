@@ -6,6 +6,8 @@
 
 import com.sun.speech.freetts.Voice;
 import com.sun.speech.freetts.VoiceManager;
+import javafx.collections.ObservableList;
+
 import java.io.*;
 import java.util.*;
 
@@ -94,7 +96,7 @@ public class DictionaryManagement {
     }
 
     public void saveFile() throws IOException {
-        String url = "C:\\Users\\Admin\\Desktop\\DictionaryApp\\DictionaryApp\\src\\main\\resources\\a.txt";
+        String url = "saveFile.txt";
         File outFile = new File(url);
         BufferedWriter writer = new BufferedWriter(new FileWriter(outFile));
         try {
@@ -129,13 +131,15 @@ public class DictionaryManagement {
         return a;
     }
 
-    void dictionarySearch(String x) {
-        int key = hash(x.toLowerCase());
+     ArrayList listView(String x) {
+        ArrayList a = new ArrayList();
+        int key = hash(x);
         for (int i = 0; i < dict.wordList[key].size(); i++) {
             if (((Word) dict.wordList[key].get(i)).word.contains(x.toLowerCase())) {
-                System.out.println(dict.wordList[key].get(i).toString() + " ");
+                a.add(((Word) dict.wordList[key].get(i)).word);
             }
         }
+        return a;
     }
 
     void removeWord(String x) {
@@ -213,14 +217,16 @@ public class DictionaryManagement {
         }
     }
 
-    void searchNearbyWord(String x) {
+    ArrayList searchNearbyWord(String x) {
+        ArrayList b = new ArrayList();
         for (int i = 0; i < 26; i++) {
             for (int j = 0; j < dict.wordList[i].size(); j++) {
                 if (SoSanh(((Word) dict.wordList[i].get(j)).word, x)) {
-                    System.out.println(dict.wordList[i].get(j).toString() + " ");
+                    b.add(((Word) dict.wordList[i].get(j)).word);
                 }
             }
         }
+        return b;
     }
 }
 

@@ -8,8 +8,8 @@
     <artifactId>DictionaryApp</artifactId>
     <version>1.0-SNAPSHOT</version>
     <properties>
-        <maven.compiler.source>1.14</maven.compiler.source>
-        <maven.compiler.target>1.14</maven.compiler.target>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
     </properties>
     <!-- https://mvnrepository.com/artifact/net.sf.sociaal/freetts -->
     <dependencies>
@@ -18,6 +18,13 @@
             <artifactId>freetts</artifactId>
             <version>1.2.2</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.openjfx/javafx -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx</artifactId>
+            <version>11</version>
+            <type>pom</type>
+        </dependency>
+
     </dependencies>
-    
 </project>
