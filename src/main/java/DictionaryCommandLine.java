@@ -1,9 +1,13 @@
-/**
- *
- * @author BTD
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
-import com.sun.speech.freetts.en.us.FeatureProcessors;
 
+/**
+ * This class is used to create a Word object and two properties of Word are word and meaning.
+ * @author Trung và Thành
+ */
 import java.io.*;
 import java.util.*;
 
@@ -18,11 +22,12 @@ public class DictionaryCommandLine {
                 "1, import -- load data from file." + "\n" +
                 "2, lookup -- search Word in the Dictionary" + "\n" +
                 "3, add -- add Words to the Dictionary" + "\n" +
-                "4, save -- save Dictionary to file" + "\n" +
-                "5, quit" + "\n" +
-                "6, speech -- speech the word" + "\n" +
-                "7, delete -- delete a Word" + "\n" +
-                "8, type any to show the Dictionary data.!");
+                "4, edit -- edit Word" + "\n" +
+                "5, save -- save Dictionary to file" + "\n" +
+                "6, quit" + "\n" +
+                "7, speech -- speech the word" + "\n" +
+                "8, delete -- delete a Word" + "\n" +
+                "9, type any to show the Dictionary data.!");
         Boolean check = true;
         String x;
         while(check == true){
@@ -31,7 +36,6 @@ public class DictionaryCommandLine {
             switch(x){
                 case "import": dict.insertFromFile();
                     break;
-
                 case "lookup": System.out.println("Nhap tu can tim: ");
                     String word = sc.nextLine();
                     String meaning = dict.dictionaryLookup(word);
@@ -41,7 +45,7 @@ public class DictionaryCommandLine {
                         System.out.println("Not Found!");
                     }
                     break;
-
+                    
                 case "add": int num;
                     System.out.println("Nhap so luong tu can them: ");
                     num = Integer.parseInt(sc.nextLine());
@@ -55,6 +59,12 @@ public class DictionaryCommandLine {
                     break;
 
                 case "quit": check = false;
+                    break;
+
+                case "edit": System.out.println("Tu can sua: ");
+                    String word1 = sc.nextLine();
+                    String meaning1 = sc.nextLine();
+                    dict.editDict(word1, meaning1);
                     break;
 
                 case "save": dict.saveFile();
