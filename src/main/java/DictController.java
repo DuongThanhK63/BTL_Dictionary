@@ -74,6 +74,10 @@ public class DictController implements Initializable{
     public void initialize(URL url, ResourceBundle rb) {
     }
 
+    /**
+     * whenClickAdd method to add word to the Dictionary
+     *{@link ActionEvent} actionEvent : call the method whenClickAdd
+     */
     public void whenClickAdd(ActionEvent actionEvent) {
         Dialog<Pair<String, String>> dialog = new Dialog<>();
         dialog.setTitle("ADD");
@@ -112,6 +116,10 @@ public class DictController implements Initializable{
 
     }
 
+    /**
+     * whenClickEdit method to edit meaning of word in the Dictionary
+     *{@link ActionEvent} actionEvent : call the method whenClickEdit
+     */
     public void whenClickEdit(ActionEvent actionEvent) {
         String wordbf = insertDict.getText();
         if (wordbf == null || wordbf.isEmpty() == true){
@@ -154,6 +162,10 @@ public class DictController implements Initializable{
         }
     }
 
+    /**
+     * whenClickDelete method to delete word from the Dictionary
+     *{@link ActionEvent} actionEvent : call the method whenClickDelete
+     */
     public void whenClickDelete(ActionEvent actionEvent) {
         String word1 = insertDict.getText();
         if (word1 == null || word1.isEmpty() == true){
@@ -164,16 +176,30 @@ public class DictController implements Initializable{
         }
     }
 
+    /**
+     * whenClickSpeech method to pronouce  word in the Dictionary
+     *{@link ActionEvent} actionEvent : call the method whenClickSpeech
+     */
     public void whenClickSpeech(ActionEvent actionEvent) {
         String word1 = insertDict.getText();
         dict.speech(word1);
     }
 
+    /**
+     * whenClickingImport method to import database to the Dictionary
+     *{@link ActionEvent} actionEvent : call the method whenClickingImport
+     *@throws FileNotFoundException
+     */
     public void whenClickingImport(ActionEvent actionEvent) throws FileNotFoundException {
         dict.insertFromFile();
         System.out.println("oke");
     }
 
+    /**
+     * whenClickingSave method to save database to the Dictionary
+     *{@link ActionEvent} actionEvent : call the method whenClickingSave
+     *@throws FileNotFoundException
+     */
     public void whenClickingSave(ActionEvent actionEvent) throws IOException {
         dict.saveFile();
     }
@@ -187,6 +213,11 @@ public class DictController implements Initializable{
 //        }
 //    }
 
+    /**
+     * suggestionWord method to show suggestionWord in the Dictionary
+     *{@link ActionEvent} actionEvent : call the method suggestionWord
+     *@throws FileNotFoundException
+     */
     public  void suggestionWord() throws IOException{
         String word1 = insertDict.getText();
         listView.getItems().clear();
@@ -219,6 +250,10 @@ public class DictController implements Initializable{
         }
     }
 
+    /**
+     * whenClickingItem method to choose the word in listView in the Dictionary
+     *{@link ActionEvent} actionEvent : call the method whenClickingItem
+     */
     public void whenClickingItem(MouseEvent mouseEvent) {
         String item = listView.getSelectionModel().getSelectedItem();
         if(item != null && item.isEmpty() == false){
@@ -229,6 +264,10 @@ public class DictController implements Initializable{
 
     }
 
+    /**
+     * whenClickingClear method to clear working window
+     *{@link ActionEvent} actionEvent : call the method whenClickingClear
+     */
     public void whenClickingClear(ActionEvent actionEvent) {
         insertDict.clear();
         displayMeaning.clear();
@@ -236,6 +275,10 @@ public class DictController implements Initializable{
         listView.getItems().clear();
     }
 
+    /**
+     * whenClickingHelp method to show user manual
+     *{@link ActionEvent} actionEvent : call the method whenClickingHelp
+     */
     public void whenClickingHelp(ActionEvent actionEvent) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("HELP");
