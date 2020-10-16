@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+/**
+ * This class is used to create a 'Dictionary' data type consisting of multiple 'Word'.
+ * @author Trung và Thành
+ */
+
 
 import java.util.*;
 
-/**
- *
- * @author Admin
- */
 public class Dictionary {
 
     LinkedList[] wordList = new LinkedList[100];
@@ -19,4 +20,5 @@ public class Dictionary {
             wordList[i] = new LinkedList<>();
         }
     }
+
 }

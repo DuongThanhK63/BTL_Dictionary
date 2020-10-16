@@ -1,3 +1,13 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ * This class is used to create a Word object and two properties of Word are word and meaning.
+ * @author Trung và Thành
+ */
 
 import com.sun.javafx.charts.Legend;
 import javafx.beans.value.ChangeListener;
@@ -7,12 +17,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
-
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -106,10 +114,12 @@ public class DictController implements Initializable{
 
     public void whenClickEdit(ActionEvent actionEvent) {
         String wordbf = insertDict.getText();
-        if(dict.dictionaryLookup(wordbf) == null) {
-            displayMeaning.setText("Not found");
+        if (wordbf == null || wordbf.isEmpty() == true){
         }
-        else{
+        else {
+            if (dict.dictionaryLookup(wordbf) == null) {
+                displayMeaning.setText("Not found");
+            } else {
                 String meaningbf = dict.dictionaryLookup(wordbf);
                 Dialog<String> dialog = new Dialog<>();
                 dialog.setTitle("EDIT");
@@ -140,14 +150,18 @@ public class DictController implements Initializable{
                     dict.editDict(wordbf, meaning.getText());
 
                 });
+            }
         }
     }
 
     public void whenClickDelete(ActionEvent actionEvent) {
         String word1 = insertDict.getText();
-        dict.removeWord(word1);
-        displayMeaning.setText("DONE");
-
+        if (word1 == null || word1.isEmpty() == true){
+        }
+        else{
+            dict.removeWord(word1);
+            displayMeaning.setText("DONE");
+        }
     }
 
     public void whenClickSpeech(ActionEvent actionEvent) {
@@ -187,7 +201,8 @@ public class DictController implements Initializable{
             if(arrayList.isEmpty()){
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Confimation");
-                alert.setContentText("Ban co muon tim tu goi y ko");
+                alert.setHeaderText("YOU ENTERED INCORRECTLY");
+                alert.setContentText("Would you like to see some approximate words?");
                 Optional<ButtonType> result = alert.showAndWait();
 
                 if(result.get().getButtonData() == ButtonBar.ButtonData.OK_DONE){
@@ -197,11 +212,10 @@ public class DictController implements Initializable{
                 }
 
             }
-            else{
+            else {
                 list.addAll(arrayList);
                 listView.getItems().addAll(list.sorted());
             }
-
         }
     }
 
@@ -223,6 +237,17 @@ public class DictController implements Initializable{
     }
 
     public void whenClickingHelp(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("HELP");
+        alert.setHeaderText("User manual");
+        String a = "1. Add: Add word to the database "
+                + "\n" + "2. Delete: Delete word from the database"
+                + "\n" + "3. Edit: Change the meaning of word in the database"
+                + "\n" + "4. Speech: Pronounce the word in the search box"
+                + "\n" + "5: Clear: Clear working window";
+        TextArea textTur = new TextArea(a);
+        alert.getDialogPane().setContent(textTur);
+        Optional<ButtonType> result = alert.showAndWait();
 
     }
 }

@@ -5,9 +5,10 @@
  */
 
 /**
- *
- * @author Admin
+ * This class is used to create a Word object and two properties of Word are word and meaning.
+ * @author Trung và Thành
  */
+
 public class Word {
 
     String word;
@@ -33,6 +34,7 @@ public class Word {
     public void setMeaning(String meaning) {
         this.meaning = meaning;
     }
+
 
     @Override
     public String toString() {

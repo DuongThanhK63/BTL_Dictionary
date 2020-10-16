@@ -4,6 +4,12 @@
  * and open the template in the editor.
  */
 
+/**
+ * This class is used to write the functions of the Dictionary App.
+ * The functions are: addDict; editDict; insertFromFile; saveFile; speech; searchWord; removeWord.
+ * @author Trung và Thành
+ */
+
 import com.sun.speech.freetts.Voice;
 import com.sun.speech.freetts.VoiceManager;
 import javafx.collections.ObservableList;
@@ -16,6 +22,12 @@ public class DictionaryManagement {
     Dictionary dict = new Dictionary();
     Voice voice;
 
+    /**
+     * The intent of this method is add a Word to the Dict.
+     * Using the hash method to add.
+     * @param word1: a variable to storage the property 'word'
+     * @param meaning: a variable to storage the property 'meaning'
+     */
     void addDict(String word1, String meaning) {
         word1 = word1.toLowerCase();
         meaning = meaning.toLowerCase();
@@ -33,6 +45,11 @@ public class DictionaryManagement {
         }
     }
 
+    /**
+     * This method is used to edit a Word in the Dictionary
+     * @param wordbf:  a variable to storage the property 'word'
+     * @param meaning:  a variable to storage the property 'meaning'
+     */
     void editDict(String wordbf, String meaning) {
         meaning = meaning.toLowerCase();
         int key = hash(wordbf);
@@ -43,7 +60,11 @@ public class DictionaryManagement {
         }
     }
 
-
+    /**
+     * Hash method to hash the Dictionary into 26 LinkedList by the first character, Ex: a, b, c, ...
+     * @param x: a variable
+     * @return the hash value: by the first char division residual by 97
+     */
     int hash(String x) {
         int index = 0;
         for (int i = 0; i < x.length(); i++) {
@@ -56,6 +77,11 @@ public class DictionaryManagement {
         return x.charAt(index) % 97;
     }
 
+    /**
+     * This method is used to import data from file: dtb.txt
+     * Using bufferedReader and fileReader
+     * @throws FileNotFoundException
+     */
     public void insertFromFile() throws FileNotFoundException {
 
         BufferedReader reader = new BufferedReader(new FileReader("dtb.txt"));
@@ -68,7 +94,6 @@ public class DictionaryManagement {
                     if (word != null) {
                         int i = hash(word);
                         dict.wordList[i].add(new Word(word, meaning));
-
                     }
                     int index1 = currentLine.indexOf('/');
                     word = currentLine.substring(1, index1 - 2);
@@ -79,7 +104,6 @@ public class DictionaryManagement {
                     meaning += currentLine;
                     currentLine = reader.readLine();
                 }
-
             }
             if (word != null) {
                 int i = hash(word);
@@ -87,14 +111,21 @@ public class DictionaryManagement {
 
             }
         } catch (IOException e) {
-        } finally {
+        }
+        finally {
             try {
                 reader.close();
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
             }
         }
     }
 
+    /**
+     * This method is used to save the data of the Dictionary to a file name: saveFile.txt.
+     * Using bufferedWriter and fileWriter.
+     * @throws IOException
+     */
     public void saveFile() throws IOException {
         String url = "saveFile.txt";
         File outFile = new File(url);
@@ -117,21 +148,29 @@ public class DictionaryManagement {
         }
     }
 
+    /**
+     * This method is used to find a Word in Dictionary.
+     * @param x: a String to storage the property 'word' and is used to find Word
+     * @return the Word meaning
+     */
     public String dictionaryLookup(String x) {
         String b = x.toLowerCase();
         int key = hash(b);
         String a = "";
         for (int i = 0; i < dict.wordList[key].size(); i++) {
             if (((Word) dict.wordList[key].get(i)).word.equals(b)) {
-//                System.out.println(dict.wordList[key].get(i).toString());
-//                speech(x);
                 a = ((Word) dict.wordList[key].get(i)).meaning;
             }
         }
         return a;
     }
 
-     ArrayList listView(String x) {
+    /**
+     * Create a suggestion Wordlist.
+     * @param x: a String to storage the property 'word' and is used to find suggestionWord
+     * @return a list of suggestionWord
+     */
+    ArrayList listView(String x) {
         ArrayList a = new ArrayList();
         int key = hash(x);
         for (int i = 0; i < dict.wordList[key].size(); i++) {
@@ -142,6 +181,10 @@ public class DictionaryManagement {
         return a;
     }
 
+    /**
+     * This method is used to delete a Word from Dictionary
+     * @param x: a String to storage the property 'word' and is used to find Word
+     */
     void removeWord(String x) {
         int key = hash(x.toLowerCase());
         for (int i = 0; i < dict.wordList[key].size(); i++) {
@@ -151,6 +194,9 @@ public class DictionaryManagement {
         }
     }
 
+    /**
+     * This method is used to show the dictionary in commandLine.
+     */
     void showAllWord() {
         for (int i = 0; i < 26; i++) {
             for (int j = 0; j < dict.wordList[i].size(); j++) {
@@ -161,6 +207,10 @@ public class DictionaryManagement {
         }
     }
 
+    /**
+     * This method is used to speech a Word
+     * @param words
+     */
     public void speech(String words) {
         System.setProperty("freetts.voices", "com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory");
         voice = VoiceManager.getInstance().getVoice("kevin16");
@@ -184,15 +234,24 @@ public class DictionaryManagement {
         voice.speak(words);
     }
 
-
+    /**
+     * This method is used to compare almost right between two Word
+     * @param s: a compare Word
+     * @param s1: a compare Word
+     * @return true if the tolerance of two Word is under 30% of Word 1
+     */
     boolean SoSanh(String s, String s1) {
-        int saiSo = (int) Math.round(s.length() * 0.3);
+        int saiSo = (int) Math.round(s.length() * 0.3); // Setting the tolerance of two Word: 0,3 Word1's length
         if (s1.length() < (s.length() - saiSo) || s1.length() > (s.length() + saiSo)) {
             return false;
         }
         int i = 0;
         int j = 0;
         int loi = 0;
+        //Compare each character of 2 strings, if they are not equal, and variable 'loi' increase one unit and compare the next neighboring words of both strings
+        //In the error range if any, then adjust the position i, j to be the index of those two strings
+        //When 1 in 2 the string is over, variable ' loi' will be add by the leftover String
+        //And if variable ' loi' > variable 'saiSo',return true; else return false
         while (i < s.length() && j < s1.length()) {
             if (s.charAt(i) != s1.charAt(j)) {
                 loi++;
@@ -217,6 +276,11 @@ public class DictionaryManagement {
         }
     }
 
+    /**
+     * This method is search the nearby Word of an existing Word
+     * @param x: a String to storage the property 'word' and is used to find NearbyWord
+     * @return
+     */
     ArrayList searchNearbyWord(String x) {
         ArrayList b = new ArrayList();
         for (int i = 0; i < 26; i++) {

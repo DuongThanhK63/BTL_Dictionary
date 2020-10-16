@@ -35,7 +35,7 @@
               <items>
                 <MenuItem fx:id="importFile" mnemonicParsing="false" onAction="#whenClickingImport" text="Import File" />
                 <MenuItem fx:id="saveFile" mnemonicParsing="false" onAction="#whenClickingSave" text="Save File" />
-                  <CheckMenuItem fx:id="Help" mnemonicParsing="false" onAction="#whenClickingHelp" text="Help" />
+                  <CheckMenuItem fx:id="helpButton" mnemonicParsing="false" onAction="#whenClickingHelp" text="Help" />
               </items>
             </MenuButton>
             <VBox layoutX="13.0" layoutY="300.0" prefHeight="295.0" prefWidth="310.0">
@@ -51,7 +51,14 @@
    <right>
       <AnchorPane prefHeight="462.0" prefWidth="464.0" style="-fx-background-color: #0598ff;" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane layoutX="-2.0" prefHeight="157.0" prefWidth="467.0" style="-fx-background-color: #0598ff;" />
+            <AnchorPane layoutX="-2.0" prefHeight="157.0" prefWidth="467.0" style="-fx-background-color: #0598ff;">
+               <children>
+                  <ImageView fitHeight="102.0" fitWidth="369.0" layoutX="49.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Untitled1.png" />
+                     </image>
+                  </ImageView>
+               </children></AnchorPane>
             <TextArea fx:id="displayMeaning" layoutX="11.0" layoutY="166.0" prefHeight="425.0" prefWidth="445.0" />
          </children>
       </AnchorPane>
