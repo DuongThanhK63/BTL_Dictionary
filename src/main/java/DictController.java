@@ -232,7 +232,7 @@ public class DictController implements Initializable{
             if(arrayList.isEmpty()){
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Confimation");
-                alert.setHeaderText("YOU ENTERED INCORRECTLY");
+                alert.setHeaderText("Maybe the word which you are typing is wrong?");
                 alert.setContentText("Would you like to see some approximate words?");
                 Optional<ButtonType> result = alert.showAndWait();
 
